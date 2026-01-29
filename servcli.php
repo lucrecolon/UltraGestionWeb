@@ -87,27 +87,15 @@ include("encabezado.php");
                         </div>
 
                         <?php
-                        // 1. DEFINICIÓN INTELIGENTE DE RUTAS
-                        // Necesitamos dos cosas:
-                        // $path_sistema: Dónde PHP busca los archivos (Ruta de disco)
-                        // $url_web: Dónde el navegador descarga los archivos (Dirección web)
-
                         if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
-                            // --- MODO LOCAL (XAMPP) ---
-                            // Buscamos saliendo de w222 hacia la carpeta scdcus
                             $path_sistema = "../PROYECTO_LIMPIO/scdcus/precios/"; 
                             $url_web      = "../PROYECTO_LIMPIO/scdcus/precios/";
                         } else {
-                            // --- MODO SERVIDOR (TOWEBS) ---
-                            // Ruta absoluta para que PHP encuentre los archivos sí o sí
                             $path_sistema = "/home/soporte3/public_html/w/scdcus/precios/";
                             
-                            // URL Relativa para que el navegador los pueda bajar
-                            // Salimos de 'w222' (..) entramos a 'w', luego 'scdcus', luego 'precios'
                             $url_web      = "../w/scdcus/precios/";
                         }
 
-                        // Verificamos si existe el directorio (solo para no tirar error)
                         if (is_dir($path_sistema)) {
                             $archivos = glob($path_sistema . "*");
                         } else {
@@ -129,11 +117,10 @@ include("encabezado.php");
                                 <tbody>
                                     <?php foreach ($archivos as $ruta) {
                                         if (is_file($ruta)) {
-                                            $nombre = basename($ruta); // Sacamos solo el nombre (ej: lista.pdf)
+                                            $nombre = basename($ruta);
                                             $fecha = date("d/m/Y H:i", filemtime($ruta));
                                             $peso = round(filesize($ruta) / 1024, 2) . ' KB';
                                             
-                                            // AQUI ESTÁ EL TRUCO: Usamos $url_web para el link
                                             $link_descarga = $url_web . $nombre;
                                             ?>
                                             <tr>

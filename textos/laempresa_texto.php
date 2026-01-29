@@ -5,7 +5,7 @@ include("encabezado.php");
 
 <section class="company-section">
     <div class="container">
-        <h2 class="section-title">Nuestra Historia</h2>
+        <h2 class="company-title">Nuestra Historia</h2>
         <div class="company-grid">
             <div class="company-text">
                 <p class="text-paragraph">

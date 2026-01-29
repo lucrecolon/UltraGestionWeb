@@ -465,8 +465,9 @@ textarea.form-input {
     margin-top: 30px;
 }
 
-.section-title{
+.company-title{
     margin-left: 20px;
+    font-size: 2rem;
 }
 
 .company-text {

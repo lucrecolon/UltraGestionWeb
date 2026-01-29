@@ -54,7 +54,7 @@ session_start();
                     <a href="javascript:void(0)" class="nav-link dropdown-trigger">Contacto ▾</a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="https://wa.me/5491153748636" target="_blank">
+                            <a href="https://wa.me/5491144999800" target="_blank">
                                 <i class="fab fa-whatsapp" style="color:green; margin-right:5px;"></i> WhatsApp
                             </a>
                         </li>
@@ -108,7 +108,6 @@ session_start();
             document.getElementById('modalLogin').style.display = 'none';
         }
 
-        // Cerrar si hacen click afuera de la cajita
         window.onclick = function(event) {
             const modal = document.getElementById('modalLogin');
             if (event.target == modal) {
