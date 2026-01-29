@@ -465,6 +465,10 @@ textarea.form-input {
     margin-top: 30px;
 }
 
+.section-title{
+    margin-left: 20px;
+}
+
 .company-text {
     flex: 2;
 }
@@ -475,7 +479,6 @@ textarea.form-input {
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-    
 }
 
 .history-img {
@@ -489,7 +492,6 @@ textarea.form-input {
     color: #444;
     line-height: 1.8;
     margin-bottom: 5px;
-
 }
 
 .subsection-title {
@@ -497,6 +499,7 @@ textarea.form-input {
     color: var(--azul-oscuro);
     margin-bottom: 15px;
     margin-top: 10px;
+    margin-left: 20px;
 }
 
 .modern-separator {
@@ -504,6 +507,7 @@ textarea.form-input {
     background-color: var(--azul-claro);
     width: 210px;
     margin: 30px 0;
+    margin-left: 20px;
 }
 
 /* para celular */
