@@ -17,8 +17,7 @@ include ("encabezado.php");
             $consulta   = $_POST["consulta"];
             $btnconsulta= $_POST["btnconsulta"];
             
-            //PONER EMAIL !!!!!!!!!!!!!
-            $to = "@gmail.com.ar";
+            $to = "ventas@ultragestion.com.ar";
             
             $subject = "Nueva Consulta Web - Ultra Gestión";
 

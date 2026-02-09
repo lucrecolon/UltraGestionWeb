@@ -91,9 +91,8 @@ include("encabezado.php");
                             $path_sistema = "../PROYECTO_LIMPIO/scdcus/precios/"; 
                             $url_web      = "../PROYECTO_LIMPIO/scdcus/precios/";
                         } else {
-                            $path_sistema = "/home/soporte3/public_html/w/scdcus/precios/";
-                            
-                            $url_web      = "../w/scdcus/precios/";
+                            $path_sistema = "/home/soporte3/public_html/scdcus/precios/";
+                            $url_web      = "scdcus/precios/";
                         }
 
                         if (is_dir($path_sistema)) {
