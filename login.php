@@ -6,11 +6,11 @@ $contrasena = isset($_POST["contrasena"]) ? $_POST["contrasena"] : "";
 
 if (!isset($_SESSION["loginOK"])) $_SESSION["loginOK"] = 0;
 
-$db->sql("SELECT * FROM usuarios WHERE USUARIO = '$usuario'");
+$db->sql("SELECT *, DECODE(CLAVE, 'PASSWD') as CLAVE_REAL FROM usuarios WHERE USUARIO = '$usuario'");
 
 if ($db->hay_resultados()) {
     $r_usuario = $db->campo("USUARIO"); 
-    $r_clave   = $db->campo("CLAVE");
+    $r_clave = $db->campo("CLAVE_REAL");
     $r_estado  = $db->campo("estado");
     if (!$r_estado) $r_estado = $db->campo("ESTADO");
     

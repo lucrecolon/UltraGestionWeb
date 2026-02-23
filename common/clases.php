@@ -12,7 +12,6 @@ class db {
         $sql_host = "localhost";
         $sql_base = "soporte3_db_web";
 
-
         $this->link = mysqli_connect($sql_host, $sql_usuario, $sql_password, $sql_base);
 
         if (!$this->link) {

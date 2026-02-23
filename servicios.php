@@ -26,6 +26,11 @@ include("encabezado.php");
         <div class="services-grid">
             <div class="services-text">
                 
+                <h3 class="subsection-title"><i class="fas fa-laptop-code"></i> Diseño y Mantenimiento de Páginas Web</h3>
+                <p class="text-paragraph">
+                    Como parte integral de nuestras soluciones, ofrecemos el servicio de diseño, desarrollo y mantenimiento de páginas web, pensado especialmente para las necesidades de librerías y editoriales. Creamos sitios modernos, intuitivos y adaptables a cualquier dispositivo. Acompañamos el crecimiento de su negocio, garantizando que su plataforma esté siempre segura, actualizada y rindiendo al máximo, con la posibilidad de integrarse de forma natural a nuestros sistemas.
+                </p>
+                
                 <h3 class="subsection-title"><i class="fas fa-chalkboard-teacher"></i> Capacitación</h3>
                 <p class="text-paragraph">
                     La capacitación es fundamental para obtener el máximo provecho de nuestras aplicaciones, por eso ofrecemos cursos y seminarios orientados a usuarios finales de los sistemas para que estos logren el mejor uso y la mayor eficiencia en su organización. Las clases son dictadas en nuestras instalaciones o en su empresa a fin de evitar el traslado masivo de los asistentes. Nuestros cursos son completamente prácticos con apoyo de guías temáticas y ejemplos reales que permiten adquirir el conocimiento para dominar la aplicación.
@@ -43,7 +48,7 @@ include("encabezado.php");
 
                 <h3 class="subsection-title"><i class="fas fa-user-tie"></i> Consultoría</h3>
                 <p class="text-paragraph">
-                    Es probable que al concluir la puesta en marcha su organización requiera horas adicionales de consulta específica. Usted podrá contratar esas horas y un técnico lo visitará para capacitarlo en su domicilio.
+                    Es probable que al concluir la puesta en marcha su organización requiera horas adicionales de consulta específica. Usted podrá contratar esas horas y un técnico lo contactará para capacitarlo.
                 </p>
 
                 <h3 class="subsection-title"><i class="fas fa-headset"></i> Cobertura mensual de soporte técnico</h3>

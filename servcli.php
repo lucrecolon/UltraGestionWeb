@@ -51,9 +51,9 @@ include("encabezado.php");
                         </a>
                     <?php } ?>
 
-                    <?php if ($estado == 1 || $estado == 5) { ?>
-                        <a href="servcli.php?servicio=setup" class="menu-link <?php echo ($servicio=='setup')?'active':''; ?>">
-                            <i class="fas fa-tools"></i> Instaladores / Setup
+                    <?php if ($estado == 1 || $estado == 5 || $estado == 6) { ?>
+                        <a href="servcli.php?servicio=tutoriales" class="menu-link <?php echo ($servicio=='tutoriales')?'active':''; ?>">
+                            <i class="fas fa-video"></i> Tutoriales
                         </a>
                     <?php } ?>
                     
@@ -63,10 +63,6 @@ include("encabezado.php");
                             <i class="fas fa-users-cog"></i> Administrar Usuarios
                         </a>
                     <?php }?>
-
-                    <a href="https://get.teamviewer.com/6622332" target="_blank" class="menu-link">
-                        <i class="fas fa-headset"></i> Soporte Remoto
-                    </a>
                 </div>
             </aside>
 
@@ -96,48 +92,72 @@ include("encabezado.php");
                         }
 
                         if (is_dir($path_sistema)) {
-                            $archivos = glob($path_sistema . "*");
+                            $archivos = glob($path_sistema . "*.WIN");
                         } else {
-                            $archivos = []; // Si no encuentra la carpeta, lista vacía
+                            $archivos = []; 
                         }
                         
-                        if ($archivos) rsort($archivos);
+                        if ($archivos) {
+                            usort($archivos, function($a, $b) {
+                                return filemtime($b) - filemtime($a);
+                            });
+                        }
 
                         if ($archivos && count($archivos) > 0) { ?>
-                            <table class="download-table">
-                                <thead>
-                                    <tr>
-                                        <th>Archivo</th>
-                                        <th>Fecha Subida</th>
-                                        <th>Tamaño</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($archivos as $ruta) {
-                                        if (is_file($ruta)) {
-                                            $nombre = basename($ruta);
-                                            $fecha = date("d/m/Y H:i", filemtime($ruta));
-                                            $peso = round(filesize($ruta) / 1024, 2) . ' KB';
+                            <div class="table-responsive">
+                                <table class="download-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Archivo</th>
+                                            <th>Fecha Subida</th>
+                                            <th>Tamaño</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($archivos as $ruta) {
+                                            if (is_file($ruta)) {
+                                                $nombre = basename($ruta);
+                                                $fecha = date("d/m/Y H:i", filemtime($ruta));
+                                                $peso = round(filesize($ruta) / 1024, 2) . ' KB';
+                                                
+                                                $link_descarga = $url_web . $nombre;
+                                                $info_archivo = pathinfo($ruta);
+                                                $ruta_des_min = $info_archivo['dirname'] . '/' . $info_archivo['filename'] . '.des';
+                                                $ruta_des_may = $info_archivo['dirname'] . '/' . $info_archivo['filename'] . '.DES';
+                                                
+                                                $descripcion = "";
+                                                if (file_exists($ruta_des_min)) {
+                                                    $descripcion = file_get_contents($ruta_des_min);
+                                                } elseif (file_exists($ruta_des_may)) {
+                                                    $descripcion = file_get_contents($ruta_des_may);
+                                                }
                                             
-                                            $link_descarga = $url_web . $nombre;
-                                            ?>
-                                            <tr>
-                                                <td>
-                                                    <i class="fas fa-file-alt" style="color:#FF9800; margin-right:5px;"></i> 
-                                                    <strong><?php echo $nombre; ?></strong>
-                                                </td>
-                                                <td><?php echo $fecha; ?></td>
-                                                <td><?php echo $peso; ?></td>
-                                                <td>
-                                                    <a href="<?php echo $link_descarga; ?>" class="file-link" download target="_blank">
-                                                        <i class="fas fa-cloud-download-alt"></i> Descargar
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                    <?php } } ?>
-                                </tbody>
-                            </table>
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        <i class="fas fa-file-alt" style="color:#FF9800; margin-right:5px;"></i> 
+                                                        <strong><?php echo $nombre; ?></strong>
+                                                        
+                                                        <?php if (trim($descripcion) != "") { ?>
+                                                            <div style="font-size: 0.85rem; color: #555; margin-top: 5px; background: #f9f9f9; padding: 5px; border-left: 3px solid #2196F3; border-radius: 3px;">
+                                                                <i class="fas fa-info-circle" style="color:#2196F3;"></i> <?php echo htmlspecialchars(trim($descripcion)); ?>
+                                                            </div>
+                                                        <?php } ?>
+                                                        
+                                                    </td>
+                                                    <td><?php echo $fecha; ?></td>
+                                                    <td><?php echo $peso; ?></td>
+                                                    <td style="text-align:center;">
+                                                        <a href="<?php echo $link_descarga; ?>" class="file-link" download target="_blank">
+                                                            <i class="fas fa-cloud-download-alt"></i> Descargar
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                        <?php } } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         <?php } else { ?>
                             <div style="padding: 30px; background: #fff3cd; color: #856404; border-radius: 8px; text-align: center; margin-top: 20px;">
                                 <i class="fas fa-exclamation-triangle"></i> No se encontraron archivos.<br>
@@ -146,9 +166,58 @@ include("encabezado.php");
                         <?php }
                     break;
 
-                    // --- SETUP ---
-                    case "setup":
-                        echo "<h2>Instaladores del Sistema</h2><p>Aquí aparecerán los instaladores (Setup).</p>";
+                    // --- TUTORIALES ---
+                    case "tutoriales":
+                        ?>
+                        <div class="content-header">
+                            <h2 style="color: var(--azul-oscuro); border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                                <i class="fas fa-video"></i> Videotutoriales
+                            </h2>
+                            <p style="color:#666; margin: 15px 0;">
+                                Aprenda a utilizar las distintas funciones de Ultra Gestión paso a paso.
+                            </p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+                            
+                            <div style="background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/95SBJHUR8cc" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div style="padding: 15px; text-align: center;">
+                                    <h4 style="margin: 0; color: var(--azul-oscuro);">Difiere numeración</h4>
+                                </div>
+                            </div>
+
+                            <div style="background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/_hI8YX55KKw" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div style="padding: 15px; text-align: center;">
+                                    <h4 style="margin: 0; color: var(--azul-oscuro);">Exportar reportes</h4>
+                                </div>
+                            </div>
+
+                            <div style="background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/eRsBSHb1MBg" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div style="padding: 15px; text-align: center;">
+                                    <h4 style="margin: 0; color: var(--azul-oscuro);">Alta reducida de artículos</h4>
+                                </div>
+                            </div>
+
+                            <div style="background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/xkh1M_1qCgY" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div style="padding: 15px; text-align: center;">
+                                    <h4 style="margin: 0; color: var(--azul-oscuro);">Reiniciar APIs</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php
                         break;
                     
                     
@@ -163,9 +232,9 @@ include("encabezado.php");
                         $mensaje = "";
                         
                         if (isset($_GET['accion']) && $_GET['accion'] == 'borrar' && isset($_GET['id'])) {
-                            $id_borrar = intval($_GET['id']); // intval por seguridad
+                            $id_borrar = str_replace("'", "", $_GET['id']); 
                             
-                            $db->sql("DELETE FROM usuarios WHERE id = $id_borrar");
+                            $db->sql("DELETE FROM usuarios WHERE USUARIO = '$id_borrar'");
                             $mensaje = "<div class='alert-box success'><i class='fas fa-trash-alt'></i> Usuario eliminado correctamente.</div>";
                         }
 
@@ -175,13 +244,13 @@ include("encabezado.php");
                         $val_pass = "";
                         
                         if (isset($_GET['accion']) && $_GET['accion'] == 'editar' && isset($_GET['id'])) {
-                            $id_editar = intval($_GET['id']);
-                            $db->sql("SELECT * FROM usuarios WHERE id = $id_editar");
+                            $id_editar = str_replace("'", "", $_GET['id']);
+                            $db->sql("SELECT USUARIO, DECODE(CLAVE, 'PASSWD') as clave_real FROM usuarios WHERE USUARIO = '$id_editar'");
                             if ($db->hay_resultados()) {
                                 $editando = true;
-                                $val_id = $id_editar;
+                                $val_id = $id_editar; 
                                 $val_user = $db->campo("USUARIO");
-                                $val_pass = $db->campo("CLAVE");
+                                $val_pass = $db->campo("clave_real");
                             }
                         }
 
@@ -189,23 +258,23 @@ include("encabezado.php");
                             
                             $u_post = str_replace("'", "", trim($_POST['usuario_form']));
                             $c_post = str_replace("'", "", trim($_POST['clave_form']));
-                            $id_post = isset($_POST['id_usuario']) ? $_POST['id_usuario'] : "";
+                            $id_post = isset($_POST['id_usuario']) ? str_replace("'", "", trim($_POST['id_usuario'])) : "";
                             
                             if ($u_post != "" && $c_post != "") {
                                 
                                 if ($id_post != "") {
-                                    $sql_update = "UPDATE usuarios SET USUARIO='$u_post', CLAVE='$c_post' WHERE id=" . intval($id_post);
+                                    $sql_update = "UPDATE usuarios SET USUARIO='$u_post', CLAVE=ENCODE('$c_post', 'PASSWD') WHERE USUARIO='$id_post'";
                                     $db->sql($sql_update);
                                     $mensaje = "<div class='alert-box success'><i class='fas fa-sync'></i> Usuario <strong>$u_post</strong> actualizado.</div>";
                                     
                                     $editando = false; $val_user = ""; $val_pass = ""; $val_id = "";
                                     
                                 } else {
-                                    $db->sql("SELECT id FROM usuarios WHERE USUARIO = '$u_post'");
+                                    $db->sql("SELECT USUARIO FROM usuarios WHERE USUARIO = '$u_post'");
                                     if ($db->hay_resultados()) {
                                         $mensaje = "<div class='alert-box error'>El usuario ya existe.</div>";
                                     } else {
-                                        $sql_insert = "INSERT INTO usuarios (USUARIO, CLAVE, estado, fec_ult_ingr) VALUES ('$u_post', '$c_post', 6, NOW())";
+                                        $sql_insert = "INSERT INTO usuarios (USUARIO, CLAVE, estado, fec_ult_ingr) VALUES ('$u_post', ENCODE('$c_post', 'PASSWD'), 6, NOW())";
                                         $db->sql($sql_insert);
                                         $mensaje = "<div class='alert-box success'><i class='fas fa-check-circle'></i> Usuario creado.</div>";
                                     }
@@ -257,54 +326,95 @@ include("encabezado.php");
                             <div class="admin-card">
                                 <h3>Usuarios Registrados</h3>
                                 
+                                <?php
+                                $limite = 10; // Cantidad de usuarios por pagina
+                                $pagina_actual = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
+                                if ($pagina_actual < 1) $pagina_actual = 1;
+
+                                $db->sql("SELECT COUNT(USUARIO) as total FROM usuarios");
+                                $total_usuarios = 0;
+                                if ($db->hay_resultados()) {
+                                    $total_usuarios = $db->campo("total");
+                                }
+                                $total_paginas = ceil($total_usuarios / $limite);
+                                if ($pagina_actual > $total_paginas && $total_paginas > 0) {
+                                    $pagina_actual = $total_paginas;
+                                }
+
+                                $offset = ($pagina_actual - 1) * $limite;
+                                ?>
+                            <div class="table-responsive">
                                 <table class="download-table">
                                     <thead>
                                         <tr>
                                             <th>Usuario</th>
-                                            <th>Clave</th>
                                             <th style="text-align:center;">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $db->sql("SELECT * FROM usuarios ORDER BY id DESC");
+                                        $db->sql("SELECT * FROM usuarios ORDER BY USUARIO ASC LIMIT $limite OFFSET $offset");
                                         
                                         if ($db->hay_resultados()) {
                                             for ($i=0; $i <= $db->ultimo_registro; $i++) { 
                                                 $db->ir($i);
-                                                $u_id   = $db->campo("id");
+                                                $u_id   = $db->campo("USUARIO");
                                                 $u_nom  = $db->campo("USUARIO");
-                                                $u_pass = $db->campo("CLAVE");
                                                 ?>
                                                 <tr>
-                                                    <td>
+                                                    <td style="white-space: nowrap;">
                                                         <i class="fas fa-user" style="color:#aaa; margin-right:5px;"></i>
                                                         <strong><?php echo $u_nom; ?></strong>
                                                     </td>
-                                                    <td style="color:#888; font-family:monospace;">
-                                                        <?php echo $u_pass; ?>
-                                                    </td>
-                                                    <td style="text-align:center;">
-                                                        <a href="servcli.php?servicio=admin_usuarios&accion=editar&id=<?php echo $u_id; ?>" 
+                                                    
+                                                    <td style="text-align:center; white-space: nowrap;">
+                                                        <a href="servcli.php?servicio=admin_usuarios&accion=editar&id=<?php echo $u_id; ?>&pg=<?php echo $pagina_actual; ?>" 
                                                            class="btn-action btn-edit" title="Editar">
-                                                            <i class="fas fa-pen"></i>
+                                                            <i class="fas fa-pen"></i> Editar
                                                         </a>
                                                         
-                                                        <a href="servcli.php?servicio=admin_usuarios&accion=borrar&id=<?php echo $u_id; ?>" 
+                                                        <a href="servcli.php?servicio=admin_usuarios&accion=borrar&id=<?php echo $u_id; ?>&pg=<?php echo $pagina_actual; ?>" 
                                                            class="btn-action btn-delete" title="Borrar"
-                                                           onclick="return confirm('¿Estás seguro de eliminar a <?php echo $u_nom; ?>? Esta acción no se puede deshacer.');">
-                                                            <i class="fas fa-trash"></i>
+                                                           onclick="return confirm('¿Estás seguro de eliminar a <?php echo $u_nom; ?>?');">
+                                                            <i class="fas fa-trash"></i> Eliminar
                                                         </a>
                                                     </td>
                                                 </tr>
                                                 <?php
                                             }
                                         } else {
-                                            echo "<tr><td colspan='3' style='padding:20px;'>No hay usuarios.</td></tr>";
+                                            echo "<tr><td colspan='2' style='padding:20px; text-align:center;'>No hay usuarios.</td></tr>";
                                         }
                                         ?>
                                     </tbody>
                                 </table>
+                            </div>
+
+                                <?php
+                                if ($total_paginas > 1) { 
+                                ?>
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                                        
+                                        <?php if ($pagina_actual > 1) { ?>
+                                            <a href="servcli.php?servicio=admin_usuarios&pg=<?php echo $pagina_actual - 1; ?>" 
+                                               style="padding: 8px 15px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; margin-right: 10px;">
+                                                <i class="fas fa-chevron-left"></i> Anterior
+                                            </a>
+                                        <?php } ?>
+
+                                        <span style="font-weight: bold; color: #555;">
+                                            Página <?php echo $pagina_actual; ?> de <?php echo $total_paginas; ?>
+                                        </span>
+
+                                        <?php if ($pagina_actual < $total_paginas) { ?>
+                                            <a href="servcli.php?servicio=admin_usuarios&pg=<?php echo $pagina_actual + 1; ?>" 
+                                               style="padding: 8px 15px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; margin-left: 10px;">
+                                                Siguiente <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        <?php } ?>
+                                        
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                         <?php

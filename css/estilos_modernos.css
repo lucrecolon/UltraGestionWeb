@@ -525,59 +525,37 @@ textarea.form-input {
     }
 }
 
-/* ESTILOS PAGINA DE SERVICIOS */
+/* --- ESTILOS PÁGINA DE SERVICIOS --- */
 
 .service-section {
-    padding: 20px;
+    padding: 40px 20px;
     background-color: var(--blanco-humo);
 }
 
-.service-title{
-    font-size: 1.8rem;
+.service-title {
+    font-size: 2.2rem;
     color: var(--azul-oscuro);
     text-align: left;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
 }
 
-.service-paragraph{
+.service-paragraph {
     font-size: 1.1rem;
     color: var(--negro);
     line-height: 1.8;
     margin-top: 0;
-    margin-bottom:20px;
-}
-
-/* Estilo para los títulos */
-.subsection-title {
-    font-size: 1.5rem;
-    color: var(--azul-oscuro); 
-    font-weight: bold;
-    display: flex;             
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 5px;
-}
-
-/* Estilo específico para los iconos */
-.subsection-title i {
-    color: var(--azul-brillante); 
-    margin-right: 12px;           
-    font-size: 1.3rem;
-    padding-left: 20px;
-}
-
-.text-paragraph {
-    font-size: 1rem;
-    color: #444;
-    line-height: 1.6;
-    padding: 20px;
+    margin-bottom: 30px;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
 }
 
 .intro-grid {
     display: flex;      
     align-items: center;
     justify-content: space-between;
-    
+    gap: 40px; 
 }
 
 .intro-text {
@@ -590,20 +568,59 @@ textarea.form-input {
     justify-content: center;
 }
 
-/* Estilo de la imagen*/
 .support-img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
-    }
+    border-radius: 0 !important;
+    box-shadow: none !important; 
+    background-color: transparent !important;
+}
 
-/* En celular */
+.subsection-title {
+    font-size: 1.4rem;
+    color: var(--azul-oscuro); 
+    font-weight: bold;
+    display: flex;             
+    align-items: center;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.subsection-title i {
+    color: var(--azul-brillante); 
+    margin-right: 12px;            
+    font-size: 1.3rem;
+    padding-left: 0 !important;
+}
+
+.text-paragraph {
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* --- PARA CELULAR --- */
 @media (max-width: 768px) {
     .intro-grid {
-        flex-direction: column-reverse;
+        flex-direction: column-reverse; 
+        gap: 25px; 
     }
-    .intro-text {
-        text-align: center;
+    
+    .intro-text, 
+    .service-title, 
+    .service-paragraph, 
+    .text-paragraph {
+        text-align: center !important; 
+    }
+    
+    .subsection-title {
+        justify-content: center !important; 
+        text-align: center !important;
     }
 }
 
@@ -1241,14 +1258,13 @@ textarea.form-input {
 
 .admin-grid {
     display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 40px;
     margin-top: 20px;
 }
 
 .admin-card {
-    flex: 1;
-    min-width: 300px;
+    width: 100%;
 }
 
 .admin-card.form-card {
@@ -1257,6 +1273,7 @@ textarea.form-input {
     border-radius: 12px;
     border: 1px solid #e9ecef;
     height: fit-content;
+    max-width: 450px;
 }
 
 .admin-card h3 {
@@ -1330,14 +1347,20 @@ textarea.form-input {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
+    padding: 6px 14px;
+    gap: 6px;
     border-radius: 5px;
     text-decoration: none;
     margin: 0 3px;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
     border: none;
     cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
 }
 
 .btn-edit {
@@ -1362,4 +1385,242 @@ textarea.form-input {
 .form-card.editing {
     border: 2px solid var(--azul-brillante);
     background-color: #f0f8ff;
+}
+
+/* --- NUEVA SECCIÓN DE HISTORIAS DE CLIENTES --- */
+.historias-grid {
+    column-count: 2; 
+    column-gap: 40px;
+    margin-bottom: 60px;
+    width: 100%;
+}
+
+.historia-card {
+    background-color: var(--blanco);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    break-inside: avoid;
+    margin-bottom: 40px;
+    display: inline-block;
+    width: 100%;
+}
+
+.historia-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* Contenedor multimedia (Foto o Video) */
+.historia-media {
+    height: 240px;
+    background-color: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Estilo si es una imagen de fondo */
+.historia-img-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Estilo si es una etiqueta <video> */
+.historia-video-tag {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+
+.historia-logo-flotante {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 200px;
+    left: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 4px solid white;
+    z-index: 2;
+}
+
+.historia-logo-flotante img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.historia-text {
+    padding: 60px 30px 30px 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.historia-text h3 {
+    margin: 0 0 15px 0;
+    color: var(--azul-oscuro);
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+.historia-text p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+
+.historia-cita {
+    margin-top: auto;
+    font-style: italic;
+    color: var(--azul-medio);
+    background: #f4f9fc;
+    padding: 15px 20px;
+    border-left: 4px solid var(--azul-brillante);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.historia-video-inline {
+    width: 100%;
+    max-height: 380px;
+    background-color: transparent;
+    border-radius: 10px;
+    object-fit: contain;
+    margin-top: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- NAVEGACION RESPONSIVE MOBILE --- */
+.menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    color: var(--azul-oscuro);
+    cursor: pointer;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; 
+    }
+
+    .nav-list {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; /* Cae justo abajo del header */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        padding: 20px 0;
+        margin: 0;
+    }
+
+
+    .nav-list.active {
+        display: flex; 
+    }
+
+    .nav-list li {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+
+
+    .nav-list li:last-child {
+        margin-left: 0 !important;
+        margin-top: 15px;
+    }
+    
+    .btn-nav {
+        display: inline-block;
+        width: 80%;
+    }
+
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        background-color: var(--blanco-humo);
+        padding: 10px 0;
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .news-section, 
+    .tutorials-section, 
+    .clients-section, 
+    .products-section, 
+    .service-section, 
+    .company-section {
+        padding: 30px 15px !important; 
+    }
+
+    .section-title {
+        font-size: 1.8rem !important;
+        text-align: center;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .historia-text {
+        padding: 50px 20px 20px 20px; */
+    }
+
+    .historia-text h3 {
+        font-size: 1.3rem;
+    }
+    
+    .historias-grid {
+        column-count: 1;
+    }
+    
+    .download-cta, 
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
 }

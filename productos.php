@@ -50,15 +50,8 @@ include("encabezado.php");
                         <li><i class="fas fa-check"></i> Multi-usuario y seguro.</li>
                     </ul>
                 </div>
-                <div class="img-side downloads-area">
-                    <div class="downloads-area">
-                		<a href="windemo.zip" class="download-cta demo" target="_blank">
-                    		<i class="fas fa-film"></i> Ver Demostración (5Mb)
-                		</a>
-                		<a href="winultrademo.pdf" class="download-cta pdf" target="_blank">
-                    		<i class="fas fa-file-pdf"></i> Descargar PDF (850kb)
-                		</a>
-            		</div>
+                <div class="img-side">
+                    <img src="img/logos/generalidades.png" onerror="this.src='img/logos/generalidades.png'" alt="Generalidades Foto">
                 </div>
             </div>
         </div>

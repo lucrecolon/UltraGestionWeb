@@ -15,8 +15,8 @@ session_start();
 </head>
 
 <body>
-    <header style="background-color: white; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <header style="background-color: white; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; z-index: 1000;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             
             <div class="logo">
                 <a href="index.php">
@@ -24,13 +24,16 @@ session_start();
                 </a>
             </div>
 
-            <ul class="nav-list">
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-list" id="nav-lista">
                 
                 <li class="dropdown-item">
                     <a href="index.php" class="nav-link">Home ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="index.php#soluciones">Nuestros servicios</a></li>
-                        <li><a href="index.php#tutoriales">Tutoriales</a></li>
                         <li><a href="index.php#novedades">Novedades</a></li>
                     </ul>
                 </li>
@@ -69,7 +72,7 @@ session_start();
 
                 <li><a href="clientes.php" class="nav-link">Clientes</a></li>
                 
-                <li><a href="#" class="btn-nav" onclick="abrirLogin(event)">Ingresar</a></li>
+                <li style="margin-left: 10px;"><a href="#" class="btn-nav" onclick="abrirLogin(event)">Ingresar</a></li>
             </ul>
         </div>
     </header>
@@ -83,6 +86,16 @@ session_start();
             <p>Ingrese sus credenciales para acceder al área de descargas.</p>
             
             <form action="login.php" method="POST">
+    
+                <?php
+                if (isset($_GET['mal_login']) && $_GET['mal_login'] == 1) {
+                ?>
+                    <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; font-size: 14px;">
+            <i class="fas fa-exclamation-circle"></i> Usuario o contraseña incorrectos
+                    </div>
+                <?php
+                }
+                ?>
                 <div class="input-group">
                     <label>Usuario</label>
                     <input type="text" name="usuario" required placeholder="Su usuario...">
@@ -100,7 +113,7 @@ session_start();
 
     <script>
         function abrirLogin(e) {
-            if(e) e.preventDefault(); // Evita que el link recargue la página
+            if(e) e.preventDefault(); 
             document.getElementById('modalLogin').style.display = 'flex';
         }
 
@@ -118,19 +131,38 @@ session_start();
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const triggers = document.querySelectorAll('.dropdown-trigger');
+        // --- MENU HAMBURGUESA ---
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-lista');
+        const icon = mobileMenuBtn.querySelector('i');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navList.classList.toggle('active');
+            
+            if (navList.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        const triggers = document.querySelectorAll('.dropdown-trigger, .nav-link[href="index.php"], .nav-link[href="productos.php"]');
 
         triggers.forEach(trigger => {
             trigger.addEventListener('click', function(e) {
-                e.preventDefault(); 
-
-                const parent = this.parentElement;
-
-                if (parent.classList.contains('activo')) {
-                    parent.classList.remove('activo');
-                } else {
-                    document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('activo'));
-                    parent.classList.add('activo');
+                if (window.innerWidth <= 768) {
+                    const parent = this.parentElement;
+                    if (parent.classList.contains('dropdown-item')) {
+                        e.preventDefault(); 
+                        if (parent.classList.contains('activo')) {
+                            parent.classList.remove('activo');
+                        } else {
+                            document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('activo'));
+                            parent.classList.add('activo');
+                        }
+                    }
                 }
             });
         });
@@ -140,6 +172,10 @@ session_start();
                 document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('activo'));
             }
         });
+
+        <?php if (isset($_GET['mal_login']) && $_GET['mal_login'] == 1) { ?>
+            document.getElementById('modalLogin').style.display = 'flex';
+        <?php } ?>
     });
     </script>
 </body>
